@@ -8,12 +8,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import tn.esprit.autoloc.domain.*;
 
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import tn.esprit.autoloc.repository.IAgenceRepository;
+import tn.esprit.autoloc.service.IAgenceService;
 
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class AgenceTests {
 
     @Autowired
     private IAgenceRepository fullAgenceRepository;
+
+    @Autowired
+    private IAgenceService agenceService;
 
     private void addAgence(CrudRepository<Agence, Long> repository) {
 
@@ -158,6 +163,19 @@ public class AgenceTests {
         Assertions.fail(sb.toString());
     }
 
+    @Test
+    public void createAgence() {                      // Q13
+        Agence agence = new Agence();
+        agence.setNom("Agence Sfax");
+        agence.setVille("Sfax");
+        agence.setAdresse("5 Rue de la Liberté");
+        agence.setTelephone("74000000");
+
+        Agence creee = agenceService.create(agence);
+
+        Assertions.assertNotNull(creee.getIdAgence());
+    }
 }
 
+@Repository
 interface AgenceRepositoryMock extends CrudRepository<Agence, Long> {}

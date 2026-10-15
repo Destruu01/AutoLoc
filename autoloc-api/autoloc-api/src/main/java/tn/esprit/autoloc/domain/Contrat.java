@@ -26,7 +26,7 @@ public class Contrat {
     private BigDecimal montantTotal;
 
     @Column(nullable = false)
-    private Boolean valide;
+    private boolean valide;
 
     @OneToMany(mappedBy = "contrat", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
