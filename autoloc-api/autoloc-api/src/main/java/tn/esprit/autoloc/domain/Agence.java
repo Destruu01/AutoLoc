@@ -1,6 +1,7 @@
 package tn.esprit.autoloc.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,17 +26,31 @@ public class Agence {
     @Column(nullable = false, length = 50)
     private String ville;
 
-    @Column(nullable = false, length = 150)
+    @Column(nullable = false, length = 255)
     private String adresse;
 
     @Column(nullable = false, length = 20)
     private String telephone;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "agence", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<Vehicule> vehicules;
+    @Column
+    private Integer effectif = 0;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "agence", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private Set<Vehicule> vehicules = new HashSet<>();
+
+    // WRITE_ONLY : lu depuis le JSON entrant (structure imbriquée), jamais renvoyé
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "agence", fetch = FetchType.LAZY)
     private Set<Employe> employes = new HashSet<>();
+
+    public void addEmploye(Employe employe) {
+        employes.add(employe);
+        employe.setAgence(this);
+    }
+
+    public void removeEmploye(Employe employe) {
+        employes.remove(employe);
+        employe.setAgence(null);
+    }
 }
