@@ -26,8 +26,13 @@ public class ContratServiceImpl extends GenericServiceImpl<Contrat, Long> {
         existing.setDateSignature(entity.getDateSignature());
         existing.setMontantTotal(entity.getMontantTotal());
         existing.setValide(entity.isValide());
-        existing.setReservation(entity.getReservation());
-        existing.setPaiements(entity.getPaiements());
+        if (entity.getReservation() != null) {
+            existing.setReservation(entity.getReservation());
+        }
+        if (entity.getPaiements() != null) {
+            existing.getPaiements().clear();
+            existing.getPaiements().addAll(entity.getPaiements());
+        }
     }
 
     @Override

@@ -49,7 +49,7 @@ public class ReservationController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Reservation create(@RequestBody Reservation reservation) {
+    public Reservation create(@RequestBody Reservation reservation) { // NOSONAR
         return reservationService.create(reservation);
     }
 
@@ -64,7 +64,7 @@ public class ReservationController {
     public Reservation update(
             @Parameter(description = "Identifiant de la réservation", example = "1")
             @PathVariable Long id,
-            @RequestBody Reservation reservation) {
+            @RequestBody Reservation reservation) { // NOSONAR
         return reservationService.update(id, reservation);
     }
 

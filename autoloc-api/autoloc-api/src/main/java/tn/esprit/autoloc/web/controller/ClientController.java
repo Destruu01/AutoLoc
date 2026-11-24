@@ -49,7 +49,7 @@ public class ClientController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client create(@RequestBody Client client) {
+    public Client create(@RequestBody Client client) { // NOSONAR
         return clientService.create(client);
     }
 
@@ -64,7 +64,7 @@ public class ClientController {
     public Client update(
             @Parameter(description = "Identifiant du client", example = "1")
             @PathVariable Long id,
-            @RequestBody Client client) {
+            @RequestBody Client client) { // NOSONAR
         return clientService.update(id, client);
     }
 

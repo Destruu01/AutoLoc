@@ -11,10 +11,17 @@ import tn.esprit.autoloc.repository.IAgenceRepository;
 import tn.esprit.autoloc.repository.IEquipementRepository;
 import tn.esprit.autoloc.repository.IVehiculeRepository;
 
+import java.util.EnumMap;
 import java.util.Map;
 
 @Service
 public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> implements IVehiculeService {
+
+    // Correspondance entre l'offre et le nom du bean de la stratégie (@Component)
+    private static final Map<VehiculeOffre, String> NOMS_STRATEGIES = new EnumMap<>(Map.of(
+            VehiculeOffre.STANDARD, "standard",
+            VehiculeOffre.WEEKEND, "weekend",
+            VehiculeOffre.LONGUE_DUREE, "longueDuree"));
 
     private final Map<String, OffreStrategy> strategies;
     private final IAgenceRepository agenceRepository;
@@ -63,9 +70,9 @@ public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> impl
     @Override
     public double calculTarif(Vehicule vehicule, int nbJours, VehiculeOffre offre) {
         double tarifJournalier = vehicule.getTarifJournalier().doubleValue();
-        OffreStrategy strategy = strategies.get(offre.name());
+        OffreStrategy strategy = strategies.get(NOMS_STRATEGIES.get(offre));
         if (strategy == null) {
-            throw new IllegalArgumentException("Offre non supportÃ©e : " + offre);
+            throw new IllegalArgumentException("Offre non supportée : " + offre);
         }
         return strategy.calculer(tarifJournalier, nbJours);
     }
@@ -81,7 +88,8 @@ public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> impl
     @Override
     public Vehicule affecte(Long id, Long idAgence) {
         var vehicule = findById(id);
-        var agence = agenceRepository.findById(idAgence).orElseThrow(() -> new ResourceNotFoundException("agence",idAgence.toString()));
+        var agence = agenceRepository.findById(idAgence)
+                .orElseThrow(() -> new ResourceNotFoundException("agence", idAgence.toString()));
 
         vehicule.setAgence(agence);
         return repository.save(vehicule);
@@ -91,9 +99,9 @@ public class VehiculeServiceImpl extends GenericServiceImpl<Vehicule, Long> impl
     @Transactional
     public Vehicule affecteEquipement(Long idVehicule, Long idEquipement) {
         var vehicule = repository.findById(idVehicule)
-                .orElseThrow(() -> new ResourceNotFoundException("vehicule",idVehicule.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("vehicule", idVehicule.toString()));
         var equipement = equipementRepository.findById(idEquipement)
-                .orElseThrow(() -> new ResourceNotFoundException("equipement",idEquipement.toString()));
+                .orElseThrow(() -> new ResourceNotFoundException("equipement", idEquipement.toString()));
         vehicule.getEquipements().add(equipement);
         return repository.save(vehicule);
     }

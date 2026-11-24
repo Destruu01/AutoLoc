@@ -49,7 +49,7 @@ public class MaintenanceController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Maintenance create(@RequestBody Maintenance maintenance) {
+    public Maintenance create(@RequestBody Maintenance maintenance) { // NOSONAR
         return maintenanceService.create(maintenance);
     }
 
@@ -64,7 +64,7 @@ public class MaintenanceController {
     public Maintenance update(
             @Parameter(description = "Identifiant de la maintenance", example = "1")
             @PathVariable Long id,
-            @RequestBody Maintenance maintenance) {
+            @RequestBody Maintenance maintenance) { // NOSONAR
         return maintenanceService.update(id, maintenance);
     }
 

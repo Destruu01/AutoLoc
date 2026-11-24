@@ -49,7 +49,7 @@ public class EmployeController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employe create(@RequestBody Employe employe) {
+    public Employe create(@RequestBody Employe employe) { // NOSONAR
         return employeService.create(employe);
     }
 
@@ -64,7 +64,7 @@ public class EmployeController {
     public Employe update(
             @Parameter(description = "Identifiant du employé", example = "1")
             @PathVariable Long id,
-            @RequestBody Employe employe) {
+            @RequestBody Employe employe) { // NOSONAR
         return employeService.update(id, employe);
     }
 

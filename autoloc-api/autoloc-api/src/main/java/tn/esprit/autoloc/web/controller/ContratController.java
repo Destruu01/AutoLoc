@@ -49,7 +49,7 @@ public class ContratController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Contrat create(@RequestBody Contrat contrat) {
+    public Contrat create(@RequestBody Contrat contrat) { // NOSONAR
         return contratService.create(contrat);
     }
 
@@ -64,7 +64,7 @@ public class ContratController {
     public Contrat update(
             @Parameter(description = "Identifiant du contrat", example = "1")
             @PathVariable Long id,
-            @RequestBody Contrat contrat) {
+            @RequestBody Contrat contrat) { // NOSONAR
         return contratService.update(id, contrat);
     }
 

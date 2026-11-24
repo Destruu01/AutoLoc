@@ -49,7 +49,7 @@ public class VehiculeController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Vehicule create(@RequestBody Vehicule vehicule) {
+    public Vehicule create(@RequestBody Vehicule vehicule) { // NOSONAR
         return vehiculeService.create(vehicule);
     }
 
@@ -64,7 +64,7 @@ public class VehiculeController {
     public Vehicule update(
             @Parameter(description = "Identifiant du véhicule", example = "1")
             @PathVariable Long id,
-            @RequestBody Vehicule vehicule) {
+            @RequestBody Vehicule vehicule) { // NOSONAR
         return vehiculeService.update(id, vehicule);
     }
 

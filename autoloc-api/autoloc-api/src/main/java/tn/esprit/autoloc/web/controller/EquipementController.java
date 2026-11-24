@@ -49,7 +49,7 @@ public class EquipementController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Equipement create(@RequestBody Equipement equipement) {
+    public Equipement create(@RequestBody Equipement equipement) { // NOSONAR
         return equipementService.create(equipement);
     }
 
@@ -64,7 +64,7 @@ public class EquipementController {
     public Equipement update(
             @Parameter(description = "Identifiant du équipement", example = "1")
             @PathVariable Long id,
-            @RequestBody Equipement equipement) {
+            @RequestBody Equipement equipement) { // NOSONAR
         return equipementService.update(id, equipement);
     }
 

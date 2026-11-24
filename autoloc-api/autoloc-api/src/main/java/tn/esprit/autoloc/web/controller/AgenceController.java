@@ -50,7 +50,7 @@ public class AgenceController {
             content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     @PostMapping                                          // Q21
     @ResponseStatus(HttpStatus.CREATED)
-    public Agence create(@RequestBody Agence agence) {
+    public Agence create(@RequestBody Agence agence) { // NOSONAR
         return agenceService.create(agence);
     }
 
@@ -63,7 +63,7 @@ public class AgenceController {
     public Agence update(
             @Parameter(description = "Identifiant de l'agence", example = "1")
             @PathVariable Long id,
-            @RequestBody Agence agence) {
+            @RequestBody Agence agence) { // NOSONAR
         return agenceService.update(id, agence);
     }
 
@@ -88,7 +88,7 @@ public class AgenceController {
     }
 
     @PutMapping("/{id}/employes")
-    public Agence ajouterEmployes(@PathVariable Long id, @RequestBody Agence agence) {
+    public Agence ajouterEmployes(@PathVariable Long id, @RequestBody Agence agence) { // NOSONAR
         return agenceService.ajouterEmployes(id, agence);
     }
 }

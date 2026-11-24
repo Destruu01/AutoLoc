@@ -16,6 +16,7 @@ public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long> implemen
 
     private final IVehiculeService vehiculeService;
     private final IEmployeService employeService;
+
     public AgenceServiceImpl(IAgenceRepository agenceRepository, IVehiculeService vehiculeService, IEmployeService employeService) {
         super(agenceRepository);
         this.vehiculeService = vehiculeService;
@@ -33,11 +34,11 @@ public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long> implemen
     }
 
     @Override
-    protected void setFields(Agence source, Agence target) {
-        target.setNom(source.getNom());
-        target.setVille(source.getVille());
-        target.setAdresse(source.getAdresse());
-        target.setTelephone(source.getTelephone());
+    protected void setFields(Agence existing, Agence source) {   // existing = cible, source = nouvelles valeurs
+        existing.setNom(source.getNom());
+        existing.setVille(source.getVille());
+        existing.setAdresse(source.getAdresse());
+        existing.setTelephone(source.getTelephone());
     }
 
     @Override
@@ -50,16 +51,17 @@ public class AgenceServiceImpl extends GenericServiceImpl<Agence, Long> implemen
         return !findById(id).getVehicules().isEmpty();
     }
 
+    @Override
     public String simuler(Agence agence, int nbjours, VehiculeOffre offre) {
         StringBuilder rapport = new StringBuilder();
-        rapport.append("Id : "+ agence.getIdAgence() + "Nom : " + agence.getNom() + "Telephone : " + agence.getTelephone()+"\n");
+        rapport.append("Id : " + agence.getIdAgence() + "Nom : " + agence.getNom() + "Telephone : " + agence.getTelephone() + "\n");
 
         double total = 0;
-        for(Vehicule vehicule : agence.getVehicules()){
+        for (Vehicule vehicule : agence.getVehicules()) {
             total += vehiculeService.calculTarif(vehicule, nbjours, offre);
         }
 
-        rapport.append("Total : " + total +"\n");
+        rapport.append("Total : " + total + "\n");
         return rapport.toString();
     }
 
